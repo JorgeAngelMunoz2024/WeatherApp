@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Search Bar -->
+    <div class="search-container">
+      <form class="search-form" role="search" onsubmit="return false;">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input
+            class="search-input"
+            type="search"
+            placeholder="Search for teams, cities, or stadiums..."
+            id="stadium-search"
+            autocomplete="off"
+          />
+        </div>
+        <div id="search-suggestions" class="search-suggestions hidden"></div>
+      </form>
+    </div>
+
     <!-- Game Calendars -->
     <div class="calendar-section">
       <!-- CFB Section -->
@@ -37,7 +54,9 @@
         </div>
       </div>
     </div>
+
     <script src="config.js"></script>
     <script src="script.js"></script>
+    <script src="search.js"></script>
   </body>
 </html>
