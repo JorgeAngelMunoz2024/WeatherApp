@@ -11,6 +11,133 @@ body {
   min-height: 100vh;
 }
 
+/* Search Container */
+.search-container {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+}
+
+.search-form {
+  position: relative;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.search-wrapper:focus-within {
+  box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+  transform: translateY(-2px);
+}
+
+body.scrolled .search-wrapper {
+  background: linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(45, 74, 111, 0.95) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.search-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 0;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Search Suggestions */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-suggestions.hidden {
+  display: none;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-item.no-results {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.6);
+  justify-content: center;
+}
+
+.suggestion-item.no-results:hover {
+  background: transparent;
+}
+
+.suggestion-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.suggestion-content {
+  flex: 1;
+}
+
+.suggestion-title {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.suggestion-title mark {
+  background: rgba(135, 206, 235, 0.3);
+  color: #87ceeb;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.suggestion-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
 /* Calendar Section */
 .calendar-section {
   max-width: 1400px;
@@ -88,7 +215,7 @@ body {
   flex-direction: column;
   gap: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
   position: relative;
 }
 
@@ -96,6 +223,22 @@ body {
   background: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.game-card.highlighted {
+  background: rgba(135, 206, 235, 0.2);
+  border: 2px solid #87ceeb;
+  box-shadow: 0 0 20px rgba(135, 206, 235, 0.3);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(135, 206, 235, 0.5);
+  }
 }
 
 /* Teams section */
@@ -136,24 +279,6 @@ body {
   text-overflow: ellipsis;
 }
 
-.favorite-star {
-  color: white;
-  font-size: 14px;
-  opacity: 0.9;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.favorite-star:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.favorite-star.active {
-  color: #ffd700;
-}
-
 /* Game time and location */
 .game-time {
   color: white;
@@ -187,10 +312,29 @@ body {
   pointer-events: none;
   transition: opacity 0.2s;
   margin-bottom: 5px;
+  z-index: 10;
 }
 
 .game-card:hover .stadium-info {
   opacity: 1;
+}
+
+/* Scrollbar styling */
+.search-suggestions::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-suggestions::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.search-suggestions::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Responsive */
@@ -210,6 +354,11 @@ body {
   .games-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .search-container {
+    position: relative;
+    top: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -219,5 +368,9 @@ body {
 
   body {
     padding: 10px;
+  }
+
+  .search-input {
+    font-size: 14px;
   }
 }
