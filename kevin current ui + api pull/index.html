@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stadium Sports Calendar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Search Bar -->
+    <div class="search-container">
+      <form class="search-form" role="search" onsubmit="return false;">
+        <div class="search-wrapper">
+          <span class="search-icon">🔍</span>
+          <input
+            class="search-input"
+            type="search"
+            placeholder="Search for teams, cities, or stadiums..."
+            id="stadium-search"
+            autocomplete="off"
+          />
+        </div>
+        <div id="search-suggestions" class="search-suggestions hidden"></div>
+      </form>
+    </div>
+
+    <!-- Game Calendars -->
+    <div class="calendar-section">
+      <!-- CFB Section -->
+      <div class="league-container">
+        <div class="league-header">
+          <img
+            src="images/helmet.png"
+            alt="CFB"
+            class="league-icon helmet-icon"
+          />
+          <h1 class="league-title">CFB</h1>
+          <span class="refresh-btn" onclick="fetchCFBGames()" title="Refresh"
+            >🔄</span
+          >
+        </div>
+        <div id="cfb-games" class="games-grid">
+          <div class="loading">Loading CFB games...</div>
+        </div>
+      </div>
+
+      <!-- NFL Section -->
+      <div class="league-container">
+        <div class="league-header">
+          <span class="league-icon">🏈</span>
+          <h1 class="league-title">NFL</h1>
+          <span class="refresh-btn" onclick="fetchNFLGames()" title="Refresh"
+            >🔄</span
+          >
+        </div>
+        <div id="nfl-games" class="games-grid">
+          <div class="loading">Loading NFL games...</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script src="search.js"></script>
+  </body>
+</html>
