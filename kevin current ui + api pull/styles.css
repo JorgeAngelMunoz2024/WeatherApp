@@ -163,9 +163,10 @@ body.scrolled .search-wrapper {
   margin-bottom: 16px;
 }
 
-.league-icon {
-  font-size: 20px;
-  color: white;
+.helmet-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .league-title {
@@ -377,3 +378,4 @@ body.scrolled .search-wrapper {
     font-size: 14px;
   }
 }
+
