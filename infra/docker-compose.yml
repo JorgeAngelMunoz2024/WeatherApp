@@ -1,0 +1,98 @@
+services:
+  # Database initialization service
+  db-init:
+    image: alpine:latest
+    container_name: nfl-weather-db-init
+    volumes:
+      - backend-data:/app/data
+    command: >
+      sh -c "
+      apk add --no-cache sqlite &&
+      if [ ! -f /app/data/nflweather.db ]; then
+        echo 'Initializing database with schema...' &&
+        sqlite3 /app/data/nflweather.db '
+        CREATE TABLE IF NOT EXISTS nfl_games (
+          game_id TEXT PRIMARY KEY,
+          season INTEGER,
+          week INTEGER,
+          gameday TEXT,
+          gametime TEXT,
+          away_team TEXT,
+          home_team TEXT,
+          league TEXT
+        );
+        CREATE TABLE IF NOT EXISTS weather_data (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          game_id TEXT,
+          temperature REAL,
+          wind_speed REAL,
+          precipitation REAL,
+          humidity REAL,
+          cloud_cover REAL,
+          weather_description TEXT,
+          FOREIGN KEY (game_id) REFERENCES nfl_games(game_id)
+        );
+        CREATE TABLE IF NOT EXISTS hourly_weather (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          game_id TEXT,
+          hour TEXT,
+          temperature REAL,
+          precipitation REAL,
+          wind_speed REAL,
+          FOREIGN KEY (game_id) REFERENCES nfl_games(game_id)
+        );' &&
+        echo 'Database initialized successfully!';
+      else
+        echo 'Database already exists, skipping initialization.';
+      fi
+      "
+    networks:
+      - nfl-weather-network
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: nfl-weather-backend
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - PYTHON_EXECUTABLE=python3
+    volumes:
+      - backend-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/nfl/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - nfl-weather-network
+
+  # Frontend service - React app (dev mode)
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: nfl-weather-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+    networks:
+      - nfl-weather-network
+
+volumes:
+  backend-data:
+    driver: local
+
+networks:
+  nfl-weather-network:
+    driver: bridge

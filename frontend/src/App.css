@@ -1,0 +1,250 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f1923 0%, #1a2632 100%);
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* Search Container */
+.search-container {
+  max-width: 1400px;
+  margin: 0 auto 30px;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+}
+
+.search-form {
+  position: relative;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.search-wrapper:focus-within {
+  box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+  transform: translateY(-2px);
+}
+
+.search-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+  padding: 8px 0;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Search Suggestions */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.suggestion-item.no-results {
+  cursor: default;
+  color: rgba(255, 255, 255, 0.6);
+  justify-content: center;
+}
+
+.suggestion-item.no-results:hover {
+  background: transparent;
+}
+
+.suggestion-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.suggestion-content {
+  flex: 1;
+}
+
+.suggestion-title {
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.suggestion-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+/* Calendar Section */
+.calendar-section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* League container */
+.league-container {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Header with icon and title */
+.league-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, #f4a460 0%, #87ceeb 100%) 1;
+  margin-bottom: 16px;
+}
+
+.league-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.league-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+.refresh-btn {
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s;
+  user-select: none;
+}
+
+.refresh-btn:hover {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+/* Games grid */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: white;
+  padding: 20px;
+  font-size: 14px;
+}
+
+/* Scrollbar styling */
+.search-suggestions::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-suggestions::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.search-suggestions::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .games-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .games-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-container {
+    position: relative;
+    top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .games-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body {
+    padding: 10px;
+  }
+
+  .search-input {
+    font-size: 14px;
+  }
+}
