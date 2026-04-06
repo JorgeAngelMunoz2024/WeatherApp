@@ -1,7 +1,7 @@
 # StormLine
 Weather app that fetches live weather data and displays it to a user friendly UI over a stadium/city card <br>
 Also fetches NFL and CFB odds for teams who are playing within a certain timeframe <br>
-Project for Programming Languages orignally now for Software Engineering II <br>
+Project for Programming Languages orignally, Updated for Software Engineering II <br>
 
 ## Setup
 
