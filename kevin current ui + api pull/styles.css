@@ -404,3 +404,40 @@ input,button{
     50% { opacity: 0; }
     100% { opacity: 1; }
 }
+
+/* Odds badge on each team row */
+.team-odds {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Positive odds (underdog) = amber, negative (favorite) = sky blue */
+.team-odds[class] {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.team-odds.favorite { background: rgba(135, 206, 235, 0.2); color: #87ceeb; }
+.team-odds.underdog { background: rgba(244, 164, 96, 0.2); color: #f4a460; }
+
+.login-btn {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
