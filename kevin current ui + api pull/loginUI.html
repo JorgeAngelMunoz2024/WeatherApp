@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        label {
+    display: block;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin-top: 10px;
+}
+    </style>
+    <link rel="stylesheet" href="styles.css">
+        <label>StormLine</label>
+       
+        <form id="form">
+            <input type="text" id="username" placeholder="Enter Username" required>
+            <input type="password" id="password" placeholder="Enter password" required>
+            <button type="submit" value="submit">Submit</button>
+             <p id="errorOutput"></p>
+        </form>
+        <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit',function logInputs(event){        
+        
+        
+            event.preventDefault()
+        const errorMsg = document.getElementById("errorOutput");
+        let usernameInput = document.getElementById("username").value;
+        let passwordInput = document.getElementById("password").value;
+
+        let validator =/^[a-zA-Z0-9]{3,}$/; //this is what puts adds the restrictions on what can be put in the inputs. for this only letters and numbers are allowed and it needs to be at min 3 char long.  
+        
+
+        if (!validator.test(usernameInput) || !validator.test(passwordInput)){
+            console.log("INVALID INPUT");
+            errorMsg.textContent = "Invalid entry please try again";
+            errorMsg.classList.add("flash")
+            return;
+        }
+        else{
+        window.location.href ="index.html"
+        
+
+    }
+
+        });
+
+
+        </script>
+
+
+</head>
+</html>
