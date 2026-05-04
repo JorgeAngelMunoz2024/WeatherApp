@@ -452,6 +452,30 @@ async function fetchCFBGames() {
   }
 }
 
+// Extract moneyline odds for both teams from bookmakers
+function getOdds(game) {
+  if (!game.bookmakers || game.bookmakers.length === 0) return null;
+
+  // Prefer DraftKings, fall back to first available
+  const bookmaker = game.bookmakers.find(b => b.key === 'draftkings') || game.bookmakers[0];
+  const h2h = bookmaker.markets?.find(m => m.key === 'h2h');
+  if (!h2h) return null;
+
+  const awayOdds = h2h.outcomes.find(o => o.name === game.away_team)?.price;
+  const homeOdds = h2h.outcomes.find(o => o.name === game.home_team)?.price;
+
+  if (!awayOdds || !homeOdds) return null;
+
+  const fmt = (n) => n > 0 ? `+${n}` : `${n}`;
+  const fmtClass = (n) => n > 0 ? 'underdog' : 'favorite';
+  return {
+    away: fmt(awayOdds),
+    home: fmt(homeOdds),
+    awayClass: fmtClass(awayOdds),
+    homeClass: fmtClass(homeOdds)
+  };
+}
+
 // Display games
 function displayGames(games, containerId, league) {
   const container = document.getElementById(containerId);
@@ -498,7 +522,8 @@ function displayGames(games, containerId, league) {
     const awayTeam = game.away_team;
     const homeTeam = game.home_team;
     const stadiumLocation = getStadiumLocation(homeTeam);
-    
+    const odds = getOdds(game);
+
     return `
       <div class="game-card" data-home="${homeTeam}" data-away="${awayTeam}" data-location="${stadiumLocation}">
         <div class="stadium-info">${stadiumLocation}</div>
@@ -506,10 +531,12 @@ function displayGames(games, containerId, league) {
           <div class="team">
             <div class="team-logo">${getTeamInitials(awayTeam)}</div>
             <span class="team-name" title="${awayTeam}">${truncateTeamName(awayTeam)}</span>
+            ${odds ? `<span class="team-odds ${odds.awayClass}">${odds.away}</span>` : ''}
           </div>
           <div class="team">
             <div class="team-logo">${getTeamInitials(homeTeam)}</div>
             <span class="team-name" title="${homeTeam}">${truncateTeamName(homeTeam)}</span>
+            ${odds ? `<span class="team-odds ${odds.homeClass}">${odds.home}</span>` : ''}
           </div>
         </div>
         <div class="game-time">${dateString} • ${timeString}</div>
